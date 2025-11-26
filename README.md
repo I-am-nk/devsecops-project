@@ -56,7 +56,7 @@ The game implements the following rules:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/devsecops-demo.git
+   git clone https://github.com/I-am-nk/DevSecOps-Project.git
    cd devsecops-demo
    ```
 
