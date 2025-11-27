@@ -1,6 +1,8 @@
+# 🚀 DevSecOps Project — EC2 + kind + Argo CD Setup & Run Guide
+
 # Kubernetes Deployment for Tic Tac Toe
 
-This directory contains Kubernetes manifests for deploying the Tic Tac Toe application.
+This directory contains Kubernetes manifests and guide for walks through setting up a local Kubernetes cluster using **kind** on an **Ubuntu EC2** instance, installing **Argo CD**, and exposing the UI and applications.
 
 ## Components
 
@@ -8,16 +10,11 @@ This directory contains Kubernetes manifests for deploying the Tic Tac Toe appli
 2. **Service** - Exposes the application within the cluster
 3. **Ingress** - Exposes the application to external traffic
 
-
-# 🚀 DevSecOps Project — EC2 + kind + Argo CD Setup & Run Guide
-
-This guide walks through setting up a local Kubernetes cluster using **kind** on an **Ubuntu EC2** instance, installing **Argo CD**, and exposing the UI and applications.
-
 ---
 
 ## 1. Prerequisites
 
-- An **Ubuntu EC2** instance (18.04 / 20.04 / 22.04 recommended) with a **public IP**.
+- An **Ubuntu EC2** instance with open port 80,3000 and 9000 and a **public IP**.
 - An SSH user with `sudo` privileges (for example, `ubuntu`).
 - A **GitHub Personal Access Token (PAT)** with `write:packages` and `read:packages` permissions for GHCR:
   - Create at: `GitHub → Settings → Developer settings → Personal access tokens`
@@ -66,13 +63,7 @@ docker ps
 
 Install kind:
 
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin/kind
-
-kind --version
-
-or follow this documention:
+👉 Follow this documention:
 https://kind.sigs.k8s.io/docs/user/quick-start/#installation
 
 
@@ -89,11 +80,7 @@ kind create cluster --name devsecops-project
 
 Download and install kubectl:
 
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x kubectl
-sudo mv kubectl /usr/local/bin/kubectl
-
-or follow this documention 
+👉 Follow this documention:
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 
@@ -110,13 +97,7 @@ kubectl version --client --short
 
 Create the Argo CD namespace and apply the official manifests:
 
-```
-kubectl create namespace argocd
-
-kubectl apply -n argocd
--f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-``
-
+👉 Follow this documention: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 Wait for Argo CD pods to become ready:
 
@@ -138,6 +119,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret
 
 ---
 
+
 ## 7. Port-Forward Argo CD UI
 
 use the below command to forword the port for the ArgoCd
@@ -148,6 +130,7 @@ kubectl port-forward svc/argocd-server 9000:80 -n argocd --address 0.0.0.0
 
 
 Now open the UI in your browser:
+
 
 ```
 http://<EC2_PUBLIC_IP>:9000
@@ -220,12 +203,11 @@ Port-forward a pod
 kubectl port-forward <pod-name> 3000:80 --address 0.0.0.0
 ```
 
-
 Open in your browser:
 
+```
 http://<EC2_PUBLIC_IP>:3000
+```
 
 
-
-
-#congrates your app is live you will be able to see the GAME.
+# congrates your app is live no you can play the GAME.
